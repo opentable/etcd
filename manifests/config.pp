@@ -1,12 +1,12 @@
-# == Class etcd::config
+# == Class etcd0xx::config
 #
-class etcd::config {
+class etcd0xx::config {
   case $::osfamily {
     'RedHat' : {
       file { '/etc/sysconfig/etcd':
         ensure  => present,
-        owner   => $etcd::user,
-        group   => $etcd::group,
+        owner   => $etcd0xx::user,
+        group   => $etcd0xx::group,
         mode    => '0644',
         content => template('etcd/etcd.sysconfig.erb'),
       }
@@ -14,15 +14,15 @@ class etcd::config {
     'Debian' : {
       file { '/etc/etcd':
         ensure => directory,
-        owner  => $etcd::user,
-        group  => $etcd::group,
+        owner  => $etcd0xx::user,
+        group  => $etcd0xx::group,
         mode   => '0555'
       }
 
       file { '/etc/etcd/etcd.conf':
         ensure  => file,
-        owner   => $etcd::user,
-        group   => $etcd::group,
+        owner   => $etcd0xx::user,
+        group   => $etcd0xx::group,
         mode    => '0644',
         content => template('etcd/etcd.conf.erb'),
         require => File['/etc/etcd']

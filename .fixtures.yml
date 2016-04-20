@@ -1,4 +1,4 @@
 ---
 fixtures:
   symlinks:
-    etcd: "#{source_dir}"
+    etcd0xx: "#{source_dir}"

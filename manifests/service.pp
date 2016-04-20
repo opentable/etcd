@@ -1,6 +1,6 @@
-# == Class etcd::service
+# == Class etcd0xx::service
 #
-class etcd::service {
+class etcd0xx::service {
   # Switch service details based on osfamily
   case $::osfamily {
     'RedHat' : {
@@ -25,8 +25,8 @@ class etcd::service {
   file { 'etcd-servicefile':
     ensure  => file,
     path    => $service_file_location,
-    owner   => $etcd::user,
-    group   => $etcd::group,
+      owner   => $etcd0xx::user,
+      group   => $etcd0xx::group,
     mode    => $service_file_mode,
     content => $service_file_contents,
     notify  => Service['etcd']
@@ -34,8 +34,8 @@ class etcd::service {
 
   # Set service status
   service { 'etcd':
-    ensure   => $etcd::service_ensure,
-    enable   => $etcd::service_enable,
+    ensure   => $etcd0xx::service_ensure,
+    enable   => $etcd0xx::service_enable,
     provider => $service_provider,
   }
 }
