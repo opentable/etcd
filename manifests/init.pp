@@ -52,10 +52,10 @@ class etcd0xx (
   $peer_bind_addr          = $etcd0xx::params::etcd_peer_bind_addr,
   $peer_ca_file            = $etcd0xx::params::etcd_peer_ca_file,
   $peer_cert_File          = $etcd0xx::params::etcd_peer_cert_File,
-  $peer_key_file           = $etcd::params::etcd_peer_key_file,
-  $cluster_active_size     = $etcd::params::etcd_cluster_active_state,
-  $cluster_remove_delay    = $etcd::params::etcd_cluster_remove_delay,
-  $cluster_sync_interval   = $etcd::params::etcd_cluster_sync_interval) inherits etcd::params {
+  $peer_key_file           = $etcd0xx::params::etcd_peer_key_file,
+  $cluster_active_size     = $etcd0xx::params::etcd_cluster_active_state,
+  $cluster_remove_delay    = $etcd0xx::params::etcd_cluster_remove_delay,
+  $cluster_sync_interval   = $etcd0xx::params::etcd_cluster_sync_interval) inherits etcd0xx::params {
 
   # Discovery settings
   validate_bool($discovery)
