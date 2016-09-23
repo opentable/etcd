@@ -1,6 +1,6 @@
-# == Class etcd0xx::params
+# == Class etcd::params
 #
-class etcd0xx::params {
+class etcd::params {
   # Handle OS Specific config values
   case $::osfamily {
     'Redhat' : { $etcd_binary_location = '/usr/sbin/etcd' }

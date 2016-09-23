@@ -1,51 +1,51 @@
-# == Class etcd0xx::install
+# == Class etcd::install
 #
-class etcd0xx::install {
+class etcd::install {
   # Create group and user if required
-  if $etcd0xx::manage_user {
-    group { $etcd0xx::group: ensure => 'present' }
+  if $etcd::manage_user {
+    group { $etcd::group: ensure => 'present' }
 
-    user { $etcd0xx::user:
+    user { $etcd::user:
       ensure  => 'present',
-      gid     => $etcd0xx::group,
-      require => Group[$etcd0xx::group],
+      gid     => $etcd::group,
+      require => Group[$etcd::group],
       before  => Package['etcd']
     }
   }
 
   # Create etcd data dir if required
-  if $etcd0xx::manage_data_dir {
-    file { $etcd0xx::data_dir:
+  if $etcd::manage_data_dir {
+    file { $etcd::data_dir:
       ensure => 'directory',
-      owner  => $etcd0xx::user,
-      group  => $etcd0xx::group,
+      owner  => $etcd::user,
+      group  => $etcd::group,
       mode   => '0750',
       before => Package['etcd']
     }
   }
 
   # Create etcd log dir if required
-  if $etcd0xx::manage_log_dir {
-    file { $etcd0xx::log_dir:
+  if $etcd::manage_log_dir {
+    file { $etcd::log_dir:
       ensure => 'directory',
-      owner  => $etcd0xx::user,
-      group  => $etcd0xx::group,
+      owner  => $etcd::user,
+      group  => $etcd::group,
       mode   => '0750',
       before => Package['etcd']
     }
   }
 
   # Setup resource ordering if appropriate
-  if ($etcd0xx::manage_user and $etcd0xx::manage_data_dir) {
-    User[$etcd0xx::user] -> File[$etcd0xx::data_dir]
+  if ($etcd::manage_user and $etcd::manage_data_dir) {
+    User[$etcd::user] -> File[$etcd::data_dir]
   }
-  if ($etcd0xx::manage_user and $etcd0xx::manage_log_dir) {
-    User[$etcd0xx::user] -> File[$etcd0xx::log_dir]
+  if ($etcd::manage_user and $etcd::manage_log_dir) {
+    User[$etcd::user] -> File[$etcd::log_dir]
   }
 
   # Install the required package
   package { 'etcd':
-    ensure => $etcd0xx::package_ensure,
-    name   => $etcd0xx::package_name,
+    ensure => $etcd::package_ensure,
+    name   => $etcd::package_name,
   }
 }

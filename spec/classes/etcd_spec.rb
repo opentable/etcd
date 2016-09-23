@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'etcd0xx', :type => :class do
+describe 'etcd', :type => :class do
   describe 'On an unknown OS' do
     let(:facts) { {:osfamily => 'Unknown'} }
     it { should raise_error() }
@@ -23,15 +23,15 @@ describe 'etcd0xx', :type => :class do
         File.read(my_fixture("etcd.upstart"))
       }
 
-      # etcd0xx::init resources
-      it { should create_class('etcd0xx') }
-      it { should contain_class('etcd0xx::params') }
-      it { should contain_anchor('etcd0xx::begin') }
-      it { should create_class('etcd0xx::install').that_requires('Anchor[etcd0xx::begin]')}
-      it { should create_class('etcd0xx::config').that_requires('Class[etcd0xx::install]').that_notifies('Class[etcd0xx::service]')}
-      it { should create_class('etcd0xx::service').that_comes_before('Anchor[etcd0xx::end]')}
-      it { should contain_anchor('etcd0xx::end') }
-      # etcd0xx::install resources
+      # etcd::init resources
+      it { should create_class('etcd') }
+      it { should contain_class('etcd::params') }
+      it { should contain_anchor('etcd::begin') }
+      it { should create_class('etcd::install').that_requires('Anchor[etcd::begin]')}
+      it { should create_class('etcd::config').that_requires('Class[etcd::install]').that_notifies('Class[etcd::service]')}
+      it { should create_class('etcd::service').that_comes_before('Anchor[etcd::end]')}
+      it { should contain_anchor('etcd::end') }
+      # etcd::install resources
       it { should contain_group('etcd').with_ensure('present') }
       it { should contain_user('etcd').with_ensure('present').with_gid('etcd').that_requires('Group[etcd]') }
       it { should contain_file('/var/lib/etcd').with({
@@ -47,7 +47,7 @@ describe 'etcd0xx', :type => :class do
           'mode'   => '0750'
         }).that_requires('User[etcd]').that_comes_before('Package[etcd]') }
       it { should contain_package('etcd').with_ensure('installed')}
-      # etcd0xx::config resources
+      # etcd::config resources
       it { should contain_file('/etc/etcd').with({
           'ensure' => 'directory',
           'owner'  => 'etcd',
@@ -60,7 +60,7 @@ describe 'etcd0xx', :type => :class do
           'group'  => 'etcd',
           'mode'   => '0644'
         }).with_content(etcd_default_config).that_requires('File[/etc/etcd]') }
-      # etcd0xx::service resources
+      # etcd::service resources
       it { should contain_file('etcd-servicefile').with({
           'ensure' => 'file',
           'path'   => '/etc/init/etcd.conf',
@@ -220,10 +220,10 @@ describe 'etcd0xx', :type => :class do
         should contain_file('/etc/etcd/etcd.conf').with_content(/election_timeout\s*= 400/)
         should contain_file('/etc/etcd/etcd.conf').with_content(/heartbeat_interval\s*= 60/)
       }
-      it { 
+      it {
         # Ensure that the upstart script is correctly populated
         should contain_file('etcd-servicefile').with_content(/\/bin\/etcd/)
-        should contain_file('etcd-servicefile').with_content(/\/test\/log_dir\/etcd.out/) 
+        should contain_file('etcd-servicefile').with_content(/\/test\/log_dir\/etcd.out/)
       }
     end
   end
@@ -240,15 +240,15 @@ describe 'etcd0xx', :type => :class do
         File.read(my_fixture("etcd.sysconfig"))
       }
 
-      # etcd0xx::init resources
-      it { should create_class('etcd0xx') }
-      it { should contain_class('etcd0xx::params') }
-      it { should contain_anchor('etcd0xx::begin') }
-      it { should create_class('etcd0xx::install').that_requires('Anchor[etcd0xx::begin]')}
-      it { should create_class('etcd0xx::config').that_requires('Class[etcd0xx::install]').that_notifies('Class[etcd0xx::service]')}
-      it { should create_class('etcd0xx::service').that_comes_before('Anchor[etcd0xx::end]')}
-      it { should contain_anchor('etcd0xx::end') }
-      # etcd0xx::install resources
+      # etcd::init resources
+      it { should create_class('etcd') }
+      it { should contain_class('etcd::params') }
+      it { should contain_anchor('etcd::begin') }
+      it { should create_class('etcd::install').that_requires('Anchor[etcd::begin]')}
+      it { should create_class('etcd::config').that_requires('Class[etcd::install]').that_notifies('Class[etcd::service]')}
+      it { should create_class('etcd::service').that_comes_before('Anchor[etcd::end]')}
+      it { should contain_anchor('etcd::end') }
+      # etcd::install resources
       it { should contain_group('etcd').with_ensure('present') }
       it { should contain_user('etcd').with_ensure('present').with_gid('etcd').that_requires('Group[etcd]') }
       it { should contain_file('/var/lib/etcd').with({
@@ -264,14 +264,14 @@ describe 'etcd0xx', :type => :class do
           'mode'   => '0750'
         }).that_requires('User[etcd]').that_comes_before('Package[etcd]') }
       it { should contain_package('etcd').with_ensure('installed')}
-      # etcd0xx::config resources
+      # etcd::config resources
       it { should contain_file('/etc/sysconfig/etcd').with({
           'ensure' => 'present',
           'owner'  => 'etcd',
           'group'  => 'etcd',
           'mode'   => '0644'
         }).with_content(etcd_default_sysconfig) }
-      # etcd0xx::service resources
+      # etcd::service resources
       it { should contain_file('etcd-servicefile').with({
           'ensure' => 'file',
           'path'   => '/etc/init.d/etcd',
