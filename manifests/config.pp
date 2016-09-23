@@ -1,4 +1,4 @@
-# == Class etcd0xx::config
+# == Class etcd::config
 #
 class etcd::config {
   case $::osfamily {
