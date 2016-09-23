@@ -1,35 +1,144 @@
-addr               = "<%= @addr -%>"
-bind_addr          = "<%= @bind_addr -%>"
-ca_file            = "<%= @ca_file -%>"
-cert_file          = "<%= @cert_file -%>"
-<% if @cors and !@cors.empty? -%>
-cors               = ["<%=  @cors.join('", "') -%>"]
-<% end -%>
-cpu_profile_file   = "<%= @cpu_profile_file -%>"
-data_dir           = "<%= @data_dir -%>"
-key_file           = "<%= @key_file -%>"
-<% if @peers and !@peers.empty? -%>
-peers              = ["<%=  @peers.join('", "') -%>"]
-<% end -%>
-<% if @peers_file -%>
-peers_file         = "<%= @peers_file -%>"
-<% end -%>
-<% if @discovery -%>
-discovery          = "<%= @discovery_endpoint -%><%= @discovery_token -%>"
-<% end -%>
-max_result_buffer  = <%= @max_result_buffer %>
-max_retry_attempts = <%= @max_retry_attempts %>
-name               = "<%= @node_name -%>"
-snapshot           = <%= @snapshot %>
-snapshot-count     = <%= @snapshot_count %>
-verbose            = <%= @verbose %>
-very_verbose       = <%= @very_verbose %>
+# This is the configuration file for the etcd server.
 
-[peer]
-addr               = "<%= @peer_addr -%>"
-bind_addr          = "<%= @peer_bind_addr -%>"
-ca_file            = "<%= @peer_ca_file -%>"
-cert_file          = "<%= @peer_cert_File -%>"
-key_file           = "<%= @peer_key_file -%>"
-election_timeout   = <%=  @peer_election_timeout %>
-heartbeat_interval = <%=  @peer_heartbeat_interval %>
+# Human-readable name for this member.
+name: <%= @node_name -%>
+
+# Path to the data directory.
+data-dir: <%= @data_dir -%>
+
+# Path to the dedicated wal directory.
+wal-dir: <%= @max_wals -%>
+
+# Number of committed transactions to trigger a snapshot to disk.
+<% if @snapshot -%>
+snapshot-count: <%= @snapshot_count -%>
+<% end -%>
+# Time (in milliseconds) of a heartbeat interval.
+heartbeat-interval: <%= @peer_heartbeat_interval -%>
+#
+# Time (in milliseconds) for an election to timeout.
+election-timeout: <%= @peer_election_timeout  -%>
+
+# Raise alarms when backend size exceeds the given quota. 0 means use the
+# default quota.
+quota-backend-bytes: <%= @quota_backend_bytes -%>
+
+# List of comma separated URLs to listen on for peer traffic.
+listen-peer-urls: <%= @peer_addr -%>
+
+# List of comma separated URLs to listen on for client traffic.
+listen-client-urls: <%= @addr -%>
+
+# Maximum number of snapshot files to retain (0 is unlimited).
+max-snapshots: <%= @max_snapshots -%>
+
+# Maximum number of wal files to retain (0 is unlimited).
+max-wals: <%= @max_wals -%>
+
+<% if @cors and !@cors.empty? -%>
+# Comma-separated white list of origins for CORS (cross-origin resource sharing).
+cors: <%= @etcd_cors -%>
+<% end -%>
+
+# List of this member's peer URLs to advertise to the rest of the cluster.
+# The URLs needed to be a comma-separated list.
+initial-advertise-peer-urls: <%= @etcd_peer_addr -%>
+
+# List of this member's client URLs to advertise to the public.
+# The URLs needed to be a comma-separated list.
+advertise-client-urls: <%= @etcd_addr -%>
+
+<% if @discovery -%>
+# Discovery URL used to bootstrap the cluster.
+discovery: <%= @discovery_endpoint -%>
+
+# Valid values include 'exit', 'proxy'
+discovery-fallback: 'proxy'
+
+# HTTP proxy to use for traffic to discovery service.
+discovery-proxy:
+
+# DNS domain used to bootstrap initial cluster.
+discovery-srv:
+<% end -%>
+
+# Initial cluster configuration for bootstrapping.
+initial-cluster: <%= @initial_cluster -%>
+
+# Initial cluster token for the etcd cluster during bootstrap.
+initial-cluster-token: <%= @initial_cluster_token -%>
+
+# Initial cluster state ('new' or 'existing').
+initial-cluster-state: <%= @initial_cluster_state -%>
+
+# Reject reconfiguration requests that would cause quorum loss.
+strict-reconfig-check: <%= @strict_reconfig_check -%>
+
+# Valid values include 'on', 'readonly', 'off'
+proxy: <%= @proxy -%>
+
+# Time (in milliseconds) an endpoint will be held in a failed state.
+proxy-failure-wait: <%= @proxy_failure_wait -%>
+
+# Time (in milliseconds) of the endpoints refresh interval.
+proxy-refresh-interval: <%= @proxy_refresh_interval -%>
+
+# Time (in milliseconds) for a dial to timeout.
+proxy-dial-timeout: <%= @proxy_dial_timeout -%>
+
+# Time (in milliseconds) for a write to timeout.
+proxy-write-timeout: <%= @proxy_write_timeout -%>
+
+# Time (in milliseconds) for a read to timeout.
+proxy-read-timeout: <%= @proxy_read_timeout -%>
+
+<% if @client_security -%>
+client-transport-security:
+  # DEPRECATED: Path to the client server TLS CA file.
+  ca-file: <%= @client_ca_file -%>
+
+  # Path to the client server TLS cert file.
+  cert-file: <%= @client_cert_file -%>
+
+  # Path to the client server TLS key file.
+  key-file: <%= @client_key_file -%>
+
+  # Enable client cert authentication.
+  client-cert-auth: <%= @client_cert_auth -%>
+
+  # Path to the client server TLS trusted CA key file.
+  trusted-ca-file: <%= @client_trusted_ca_file -%>
+
+  # Client TLS using generated certificates
+  auto-tls: <%= @client_auto_tls -%>
+<% end -%>
+
+<% if @peer_security -%>
+peer-transport-security:
+  # DEPRECATED: Path to the peer server TLS CA file.
+  ca-file: <%= @peer_ca_file -%>
+
+  # Path to the peer server TLS cert file.
+  cert-file: <%= @client_auto_tls -%>
+
+  # Path to the peer server TLS key file.
+  key-file: <%= @peer_key_file -%>
+
+  # Enable peer client cert authentication.
+  client-cert-auth: <%= @peer_cert_auth -%>
+
+  # Path to the peer server TLS trusted CA key file.
+  trusted-ca-file: <%= @peer_trusted_ca_file -%>
+
+  # Peer TLS using generated certificates.
+  auto-tls: <%= @peer_auto_tls -%>
+
+  # Enable debug-level logging for etcd.
+  debug: <%= @debug -%>
+
+  # Specify a particular log level for each etcd package (eg: 'etcdmain=CRITICAL,etcdserver=DEBUG'.
+  log-package-levels: <%= @log_package_levels -%>
+
+  # Force to create a new one member cluster.
+  force-new-cluster: <%= @force_new_cluster -%>
+<% end -%>
