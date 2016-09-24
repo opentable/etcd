@@ -24,23 +24,15 @@ class etcd (
   $user                    = $etcd::params::etcd_user,
   $group                   = $etcd::params::etcd_group,
   $addr                    = $etcd::params::etcd_addr,
-  $bind_addr               = $etcd::params::etcd_bind_addr,
-  $ca_file                 = $etcd::params::etcd_ca_file,
-  $cert_file               = $etcd::params::etcd_cert_file,
-  $key_file                = $etcd::params::etcd_key_file,
   $cors                    = $etcd::params::etcd_cors,
+  $log_dir                 = $etcd::params::etcd_log_dir,
   $cpu_profile_file        = $etcd::params::etcd_cpu_profile_file,
   $manage_data_dir         = $etcd::params::etcd_manage_data_dir,
   $data_dir                = $etcd::params::etcd_data_dir,
   $manage_log_dir          = $etcd::params::etcd_manage_log_dir,
-  $log_dir                 = $etcd::params::etcd_log_dir,
   $discovery               = $etcd::params::etcd_discovery,
   $discovery_endpoint      = $etcd::params::etcd_discovery_endpoint,
   $discovery_token         = $etcd::params::etcd_discovery_token,
-  $peers                   = $etcd::params::etcd_peers,
-  $peers_file              = $etcd::params::etcd_peers_file,
-  $max_result_buffer       = $etcd::params::etcd_max_result_buffer,
-  $max_retry_attempts      = $etcd::params::etcd_max_retry_attempts,
   $node_name               = $etcd::params::etcd_node_name,
   $snapshot                = $etcd::params::etcd_snapshot,
   $snapshot_count          = $etcd::params::etcd_snapshot_count,
@@ -49,19 +41,47 @@ class etcd (
   $peer_election_timeout   = $etcd::params::etcd_peer_election_timeout,
   $peer_heartbeat_interval = $etcd::params::etcd_peer_heartbeat_interval,
   $peer_addr               = $etcd::params::etcd_peer_addr,
-  $peer_bind_addr          = $etcd::params::etcd_peer_bind_addr,
-  $peer_ca_file            = $etcd::params::etcd_peer_ca_file,
-  $peer_cert_File          = $etcd::params::etcd_peer_cert_File,
-  $peer_key_file           = $etcd::params::etcd_peer_key_file,
   $cluster_active_size     = $etcd::params::etcd_cluster_active_state,
   $cluster_remove_delay    = $etcd::params::etcd_cluster_remove_delay,
-  $cluster_sync_interval   = $etcd::params::etcd_cluster_sync_interval) inherits etcd::params {
+  $cluster_sync_interval   = $etcd::params::etcd_cluster_sync_interval,
+  $wal_dir                 = $etcd::params::etcd_wal_dir,
+  $max_wals                = $etcd::params::etcd_max_wals,
+  $quota_backend_bytes     = $etcd::params::etcd_quota_backend_bytes,
+  $max_snapshots           = $etcd::params::etcd_max_snapshots,
+  $initial_cluster         = $etcd::params::etcd_initial_cluster,
+  $initial_cluster_token   = $etcd::params::etcd_initial_cluster_token,
+  $initial_cluster_state   = $etcd::params::etcd_initial_cluster_state,
+  $strict_reconfig_check   = $etcd::params::etcd_strict_reconfig_check,
+  $proxy                   = $etcd::params::etcd_proxy,
+  $proxy_failure_wait      = $etcd::params::etcd_proxy_failure_wait,
+  $proxy_refresh_interval  = $etcd::params::etcd_proxy_refresh_interval,
+  $proxy_dial_timeout      = $etcd::params::etcd_proxy_dial_timeout,
+  $proxy_write_timeout     = $etcd::params::etcd_proxy_write_timeout,
+  $proxy_read_timeout      = $etcd::params::etcd_proxy_read_timeout,
+  $client_security         = $etcd::params::etcd_client_security,
+  $client_ca_file          = $etcd::params::etcd_client_ca_file,
+  $client_cert_file        = $etcd::params::etcd_client_cert_file,
+  $client_key_file         = $etcd::params::etcd_client_key_file,
+  $client_cert_auth        = $etcd::params::etcd_client_cert_auth,
+  $client_trusted_ca_file  = $etcd::params::etcd_client_trusted_ca_file,
+  $client_auto_tls         = $etcd::params::etcd_client_auto_tls,
+  $peer_security           = $etcd::params::etcd_peer_security,
+  $peer_ca_file            = $etcd::params::etcd_peer_ca_file,
+  $peer_cert_file          = $etcd::params::etcd_peer_cert_file,
+  $peer_key_file           = $etcd::params::etcd_peer_key_file,
+  $peer_cert_auth          = $etcd::params::etcd_peer_cert_auth,
+  $peer_trusted_ca_file    = $etcd::params::etcd_peer_trusted_ca_file,
+  $peer_auto_tls           = $etcd::params::etcd_peet_auto_tls,
+  $debug                   = $etcd::params::etcd_debug,
+  $log_package_levels      = $etcd::params::etcd_log_package_levels,
+  $force_new_cluster       = $etcd::params::etcd_force_new_cluster) inherits etcd::params {
+
 
   # Discovery settings
   validate_bool($discovery)
   # If not using discovery, should have a valid list of peers
   if (!$discovery) {
-    validate_array($peers)
+    validate_array($initial_cluster)
   }
   # If using discovery, should have a valid discovery token
   if ($discovery and $discovery_token == '') {

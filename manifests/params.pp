@@ -60,7 +60,6 @@ class etcd::params {
   $etcd_strict_reconfig_check   = false
 
   $etcd_initial_cluster         = []
-  $etcd_initial_cluster         = ''
   $etcd_initial_cluster_token   = 'etcd-cluster'
   $etcd_initial_cluster_state   = 'new'
 
