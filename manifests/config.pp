@@ -10,7 +10,7 @@ class etcd::config {
         mode   => '0555'
       }
 
-      file { '/etc/etcd/etcd.conf':
+      file { '/etc/etcd/etcd.conf.yml':
         ensure  => file,
         owner   => $etcd::user,
         group   => $etcd::group,
