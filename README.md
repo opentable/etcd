@@ -4,15 +4,15 @@ About
 
 This puppet module installs and configures etcd.
 
-*WARNING*: This module probably has some rough edges. PR me with your 
+*WARNING*: This module probably has some rough edges. PR me with your
 modifications! (And tests!)
 
-It is designed around the current version of etcd (at time of this writing), 
-0.3.0. 
+It is designed around the current version of etcd (at time of this writing),
+0.3.0.
 
 Examples
 ---------
-Simplest invocation, installs etcd via packages, manages a user, puts data in 
+Simplest invocation, installs etcd via packages, manages a user, puts data in
 `/var/lib/etcd/` and makes sure it runs on localhost:
 
     class { 'etcd': }

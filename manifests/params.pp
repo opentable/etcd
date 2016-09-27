@@ -43,10 +43,6 @@ class etcd::params {
   # Peer settings
   $etcd_listen_peer_urls            = join(["${::fqdn}:7001","${::fqdn}:2380"],",")
 
-  # Logging settings
-  $etcd_verbose                     = false
-  $etcd_very_verbose                = false
-
   # Snapshot settings
   $etcd_snapshot                    = true
   $etcd_snapshot_count              = '10000'

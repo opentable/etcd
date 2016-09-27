@@ -24,6 +24,7 @@ class etcd (
   $user                        = $etcd::params::etcd_user,
   $group                       = $etcd::params::etcd_group,
   $cors                        = $etcd::params::etcd_cors,
+  $manage_log_dir              = $etcd::params::etcd_manage_log_dir,
   $log_dir                     = $etcd::params::etcd_log_dir,
   $node_name                   = $etcd::params::etcd_node_name,
   $manage_data_dir             = $etcd::params::etcd_manage_data_dir,
@@ -33,8 +34,6 @@ class etcd (
   $discovery_endpoint          = $etcd::params::etcd_discovery_endpoint,
   $snapshot                    = $etcd::params::etcd_snapshot,
   $snapshot_count              = $etcd::params::etcd_snapshot_count,
-  $verbose                     = $etcd::params::etcd_verbose,
-  $very_verbose                = $etcd::params::etcd_very_verbose,
   $election_timeout            = $etcd::params::etcd_election_timeout,
   $heartbeat_interval          = $etcd::params::etcd_heartbeat_interval,
   $listen_peer_urls            = $etcd::params::etcd_listen_peer_urls,
@@ -78,9 +77,12 @@ class etcd (
   validate_array($cors)
   validate_bool($manage_user)
   validate_bool($snapshot)
-  validate_bool($verbose)
-  validate_bool($very_verbose)
   validate_bool($manage_data_dir)
+  validate_bool($strict_reconfig_check)
+  validate_bool($client_security)
+  validate_bool($peer_security)
+  validate_bool($debug)
+  validate_bool($force_new_cluster)
 
   anchor { 'etcd::begin': } ->
   class { '::etcd::install': } ->

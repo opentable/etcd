@@ -132,34 +132,39 @@ describe 'etcd', :type => :class do
 
     context 'When specifying all of the etcd config params' do
       let(:params) { {
-          :addr                    => '1.2.3.4:5678',
-          :binary_location         => '/bin/etcd',
-          :listen_peer_urls        => '9.9.9.9:9999',
-          :ca_file                 => '/test/ca_file',
-          :cert_file               => '/test/cert_file',
-          :cors                    => [ 'cors1', 'cors2' ],
-          :cpu_profile_file        => '/test/cpu_profile_file',
-          :data_dir                => '/test/data_dir',
-          :group                   => 'etcd_group',
-          :log_dir                 => '/test/log_dir',
-          :key_file                => '/test/key_file',
-          :peers                   => [ 'peer1', 'peer2' ],
-          :peers_file              => '/test/peers_file',
-          :max_result_buffer       => '222',
-          :max_retry_attempts      => '333',
-          :node_name               => 'test_node_name',
-          :snapshot                => true,
-          :snapshot_count          => '10000',
-          :user                    => 'etcd_user',
-          :verbose                 => true,
-          :very_verbose            => true,
-          :peer_election_timeout   => '400',
-          :peer_heartbeat_interval => '60',
-          :peer_addr               => '1.1.1.1:1111',
-          :peer_bind_addr          => '2.2.2.2:2222',
-          :peer_ca_file            => '/test/peer_ca_file',
-          :peer_cert_File          => '/test/peer_cert_file',
-          :peer_key_file           => '/test/peer_key_file'
+          :listen_client_urls           => 'http://localhost:2379,http://localhost:4001',
+          :listen_peer_urls             => 'http://localhost:2380,http://localhost:7001',
+          :initial_advertise_peer_urls  => 'http://localhost:2380,http://localhost:7001',
+          :advertise_client_urls        => 'http://localhost:2379,http://localhost:4001',
+          :initial_cluster              => 'test_node_name=http://localhost:2380,test_node_name=http://localhost:7001',
+          :initial_cluster_token        => '12345',
+          :initial_cluster_state        => 'old',
+          :strict_reconfig_check        => true,
+          :proxy                        => 'on',
+          :proxy_failure_wait           => '2500',
+          :proxy_refresh_interval       => '3000',
+          :proxy_dial_timeout           => '1500',
+          :proxy_write_timeout          => '6000',
+          :proxy_read_timeout           => '6000',
+          :peer_security                => true,
+          :wal_dir                      => '/test/wal',
+          :max_wals                     => '5',
+          :binary_location              => '/bin/etcd',
+          :cors                         => [ 'cors1', 'cors2' ],
+          :data_dir                     => '/test/data_dir',
+          :group                        => 'etcd_group',
+          :log_dir                      => '/test/log_dir',
+          :node_name                    => 'test_node_name',
+          :snapshot                     => true,
+          :snapshot_count               => '10000',
+          :max_snapshots                => '20000',
+          :user                         => 'etcd_user',
+          :election_timeout             => '400',
+          :heartbeat_interval           => '60',
+          :debug                        => true,
+          :log_package_levels           => 'DEBUG',
+          :force_new_cluster            => true
+
         } }
       it { should contain_group('etcd_group').with_ensure('present') }
       it { should contain_user('etcd_user').with_ensure('present').with_gid('etcd_group').that_requires('Group[etcd_group]') }
@@ -177,31 +182,33 @@ describe 'etcd', :type => :class do
         }).that_requires('User[etcd_user]').that_comes_before('Package[etcd]') }
       it {
         # Ensure that the config file is correctly populated
-        should contain_file('/etc/etcd/etcd.conf').with_content(/addr\s*= "1\.2\.3\.4:5678"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/bind_addr\s*= "9\.9\.9\.9:9999"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/ca_file\s*= "\/test\/ca_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/cert_file\s*= "\/test\/cert_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/cors\s*= \["cors1", "cors2"\]/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/cpu_profile_file\s*= "\/test\/cpu_profile_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/data_dir\s*= "\/test\/data_dir"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/key_file\s*= "\/test\/key_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/peers\s*= \["peer1", "peer2"\]/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/peers_file\s*= "\/test\/peers_file"/)
-        should contain_file('/etc/etcd/etcd.conf').without_content(/discovery\s*=/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/max_result_buffer\s*= 222/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/max_retry_attempts\s*= 333/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/name\s*= "test_node_name"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/snapshot\s*= true/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/snapshot-count\s*= 10000/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/verbose\s*= true/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/very_verbose\s*= true/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/\[peer\]\naddr\s*= "1\.1\.1\.1:1111"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/bind_addr\s*= "2\.2\.2\.2:2222"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/ca_file\s*= "\/test\/peer_ca_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/cert_file\s*= "\/test\/peer_cert_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/key_file\s*= "\/test\/peer_key_file"/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/election_timeout\s*= 400/)
-        should contain_file('/etc/etcd/etcd.conf').with_content(/heartbeat_interval\s*= 60/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/listen-client-urls: 'http:\/\/localhost:2379,http:\/\/localhost:4001'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/listen-peer-urls: 'http:\/\/localhost:2380,http:\/\/localhost:7001'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-advertise-peer-urls: 'http:\/\/localhost:2380,http:\/\/localhost:7001'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/advertise-peer-urls: 'http:\/\/localhost:2380,http:\/\/localhost:7001'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-cluster: 'test_node_name=http:\/\/localhost:2380,test_node_name=http:\/\/localhost:7001'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-cluster-token: '12345'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-cluster-state: 'old'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/strict-reconfig-check: 'true'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy: 'on'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-failure-wait: '2500'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-refresh-interval: '3000'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-dial-timeout: '1500'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-write-timeout: '6000'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-read-timeout: '6000'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/wal-dir: '\/test\/wal'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-wals: '5'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/cors: \["cors1", "cors2"\]/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/data-dir: '\/test\/data_dir'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').without_content(/discovery:/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/name: 'test_node_name'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/snapshot-count: '10000'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-snapshots: '20000'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/election-timeout: '400'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/heartbeat-interval: '60'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/debug: 'true'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/log-package-levels: 'DEBUG'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/force-new-cluster: 'true'/)
       }
       it {
         # Ensure that the upstart script is correctly populated
