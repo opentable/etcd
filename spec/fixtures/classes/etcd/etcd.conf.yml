@@ -2,53 +2,65 @@
 
 # Human-readable name for this member.
 name: 'etcd.test.local'
+
 # Path to the data directory.
 data-dir: '/var/lib/etcd'
+
 # Path to the dedicated wal directory.
 wal-dir: ''
-# Maximum number of wal files to retain (0 is unlimited).
-max-wals: '5'
-# Number of committed transactions to trigger a snapshot to disk.
-snapshot-count: '10000'
-# Time (in milliseconds) of a heartbeat interval.
-heartbeat-interval: '100'
-# Time (in milliseconds) for an election to timeout.
-election-timeout: '1000'
+
 # List of comma separated URLs to listen on for peer traffic.
 listen-peer-urls: 'etcd.test.local:7001,etcd.test.local:2380'
+
 # List of comma separated URLs to listen on for client traffic.
 listen-client-urls: 'etcd.test.local:2379,etcd.test.local:4001'
-# Maximum number of snapshot files to retain (0 is unlimited).
-max-snapshots: '5'
+
 # List of this member's peer URLs to advertise to the rest of the cluster.
 # The URLs needed to be a comma-separated list.
 initial-advertise-peer-urls: 'etcd.test.local:2380,etcd.test.local:7001'
+
 # List of this member's client URLs to advertise to the public.
 # The URLs needed to be a comma-separated list.
 advertise-client-urls: 'etcd.test.local:2380,etcd.test.local:7001'
+
 # Initial cluster configuration for bootstrapping.
 initial-cluster: 'etcd.test.local=etcd.test.local:7001,etcd.test.local=etcd.test.local:2380'
+
 # Initial cluster token for the etcd cluster during bootstrap.
 initial-cluster-token: 'etcd-cluster'
+
 # Initial cluster state ('new' or 'existing').
 initial-cluster-state: 'new'
-# Reject reconfiguration requests that would cause quorum loss.
-strict-reconfig-check: 'false'
+
 # Valid values include 'on', 'readonly', 'off'
 proxy: 'off'
 # Time (in milliseconds) an endpoint will be held in a failed state.
-proxy-failure-wait: '5000'
+proxy-failure-wait: 5000
 # Time (in milliseconds) of the endpoints refresh interval.
-proxy-refresh-interval: '30000'
+proxy-refresh-interval: 30000
 # Time (in milliseconds) for a dial to timeout.
-proxy-dial-timeout: '1000'
+proxy-dial-timeout: 1000
 # Time (in milliseconds) for a write to timeout.
-proxy-write-timeout: '5000'
+proxy-write-timeout: 5000
 # Time (in milliseconds) for a read to timeout.
-proxy-read-timeout: '0'
+proxy-read-timeout: 0
+
+# Force to create a new one member cluster.
+force-new-cluster: false
+# Maximum number of wal files to retain (0 is unlimited).
+max-wals: 5
+# Time (in milliseconds) of a heartbeat interval.
+heartbeat-interval: 100
+# Time (in milliseconds) for an election to timeout.
+election-timeout: 1000
+# Maximum number of snapshot files to retain (0 is unlimited).
+max-snapshots: 5
+# Reject reconfiguration requests that would cause quorum loss.
+strict-reconfig-check: false
 # Enable debug-level logging for etcd.
-debug: 'false'
+debug: false
+# Number of committed transactions to trigger a snapshot to disk.
+snapshot-count: 10000
+
 # Specify a particular log level for each etcd package (eg: 'etcdmain=CRITICAL,etcdserver=DEBUG'.
 log-package-levels: ''
-# Force to create a new one member cluster.
-force-new-cluster: 'false'

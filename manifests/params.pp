@@ -3,7 +3,7 @@
 class etcd::params {
   # Handle OS Specific config values
   case $::osfamily {
-    'Debian' : { $etcd_binary_location = '/usr/bin/etcd' }
+    'Debian' : { $etcd_binary_location = '/usr/sbin/etcd' }
     default  : { fail("Unsupported osfamily ${::osfamily}") }
   }
 

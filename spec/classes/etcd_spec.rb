@@ -62,14 +62,19 @@ describe 'etcd', :type => :class do
         }).with_content(etcd_default_config).that_requires('File[/etc/etcd]') }
       # etcd::service resources
       it { should contain_file('etcd-servicefile').with({
-          'ensure' => 'file',
-          'path'   => '/etc/init/etcd.conf.yml',
-          'owner'  => 'etcd',
-          'group'  => 'etcd',
-          'mode'   => '0444'
-        }).with_content(etcd_default_upstart).that_notifies('Service[etcd]') }
-      it { should contain_service('etcd').with_ensure('running').with_enable('true').with_provider('upstart') }
-    end
+      'ensure' => 'file',
+      'path'   => '/etc/init.d/etcd',
+      'owner'  => 'etcd',
+      'group'  => 'etcd',
+      'mode'   => '0755'
+      }).that_notifies('Service[etcd]') }
+      it { should contain_service('etcd').only_with( {
+          'ensure'   => 'running',
+          'enable'   => 'true',
+          'provider' => nil
+      } ) }
+
+      end
 
     context 'When overriding service parameters' do
       let(:params) { {
@@ -189,26 +194,26 @@ describe 'etcd', :type => :class do
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-cluster: 'test_node_name=http:\/\/localhost:2380,test_node_name=http:\/\/localhost:7001'/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-cluster-token: '12345'/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/initial-cluster-state: 'old'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/strict-reconfig-check: 'true'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/strict-reconfig-check: true/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy: 'on'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-failure-wait: '2500'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-refresh-interval: '3000'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-dial-timeout: '1500'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-write-timeout: '6000'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-read-timeout: '6000'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-failure-wait: 2500/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-refresh-interval: 3000/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-dial-timeout: 1500/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-write-timeout: 6000/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-read-timeout: 6000/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/wal-dir: '\/test\/wal'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-wals: '5'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-wals: 5/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/cors: \["cors1", "cors2"\]/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/data-dir: '\/test\/data_dir'/)
         should contain_file('/etc/etcd/etcd.conf.yml').without_content(/discovery:/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/name: 'test_node_name'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/snapshot-count: '10000'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-snapshots: '20000'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/election-timeout: '400'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/heartbeat-interval: '60'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/debug: 'true'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/snapshot-count: 10000/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-snapshots: 20000/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/election-timeout: 400/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/heartbeat-interval: 60/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/debug: true/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/log-package-levels: 'DEBUG'/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/force-new-cluster: 'true'/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/force-new-cluster: true/)
       }
       it {
         # Ensure that the upstart script is correctly populated

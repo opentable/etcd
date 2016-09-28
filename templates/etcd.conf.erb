@@ -2,58 +2,80 @@
 
 # Human-readable name for this member.
 name: '<%= @node_name -%>'
+
 # Path to the data directory.
 data-dir: '<%= @data_dir -%>'
+
 # Path to the dedicated wal directory.
 wal-dir: '<%= @wal_dir -%>'
-# Maximum number of wal files to retain (0 is unlimited).
-max-wals: '<%= @max_wals -%>'
-# Number of committed transactions to trigger a snapshot to disk.
-<% if @snapshot -%>
-snapshot-count: '<%= @snapshot_count -%>'
-<% end -%>
-# Time (in milliseconds) of a heartbeat interval.
-heartbeat-interval: '<%= @heartbeat_interval -%>'
-# Time (in milliseconds) for an election to timeout.
-election-timeout: '<%= @election_timeout  -%>'
+
 # List of comma separated URLs to listen on for peer traffic.
 listen-peer-urls: '<%= @listen_peer_urls -%>'
+
 # List of comma separated URLs to listen on for client traffic.
 listen-client-urls: '<%= @listen_client_urls -%>'
-# Maximum number of snapshot files to retain (0 is unlimited).
-max-snapshots: '<%= @max_snapshots -%>'
+
 # List of this member's peer URLs to advertise to the rest of the cluster.
 # The URLs needed to be a comma-separated list.
 initial-advertise-peer-urls: '<%= @initial_advertise_peer_urls -%>'
+
 # List of this member's client URLs to advertise to the public.
 # The URLs needed to be a comma-separated list.
 advertise-client-urls: '<%= @advertise_client_urls -%>'
+
 # Initial cluster configuration for bootstrapping.
 initial-cluster: '<%= @initial_cluster -%>'
+
 # Initial cluster token for the etcd cluster during bootstrap.
 initial-cluster-token: '<%= @initial_cluster_token -%>'
+
 # Initial cluster state ('new' or 'existing').
 initial-cluster-state: '<%= @initial_cluster_state -%>'
-# Reject reconfiguration requests that would cause quorum loss.
-strict-reconfig-check: '<%= @strict_reconfig_check -%>'
+
 # Valid values include 'on', 'readonly', 'off'
 proxy: '<%= @proxy -%>'
 # Time (in milliseconds) an endpoint will be held in a failed state.
-proxy-failure-wait: '<%= @proxy_failure_wait -%>'
+proxy-failure-wait: <%= @proxy_failure_wait -%>
+
 # Time (in milliseconds) of the endpoints refresh interval.
-proxy-refresh-interval: '<%= @proxy_refresh_interval -%>'
+proxy-refresh-interval: <%= @proxy_refresh_interval -%>
+
 # Time (in milliseconds) for a dial to timeout.
-proxy-dial-timeout: '<%= @proxy_dial_timeout -%>'
+proxy-dial-timeout: <%= @proxy_dial_timeout -%>
+
 # Time (in milliseconds) for a write to timeout.
-proxy-write-timeout: '<%= @proxy_write_timeout -%>'
+proxy-write-timeout: <%= @proxy_write_timeout -%>
+
 # Time (in milliseconds) for a read to timeout.
-proxy-read-timeout: '<%= @proxy_read_timeout -%>'
-# Enable debug-level logging for etcd.
-debug: '<%= @debug -%>'
-# Specify a particular log level for each etcd package (eg: 'etcdmain=CRITICAL,etcdserver=DEBUG'.
-log-package-levels: '<%= @log_package_levels -%>'
+proxy-read-timeout: <%= @proxy_read_timeout -%>
+
+
 # Force to create a new one member cluster.
-force-new-cluster: '<%= @force_new_cluster -%>'
+force-new-cluster: <%= @force_new_cluster -%>
+
+# Maximum number of wal files to retain (0 is unlimited).
+max-wals: <%= @max_wals -%>
+
+# Time (in milliseconds) of a heartbeat interval.
+heartbeat-interval: <%= @heartbeat_interval -%>
+
+# Time (in milliseconds) for an election to timeout.
+election-timeout: <%= @election_timeout  -%>
+
+# Maximum number of snapshot files to retain (0 is unlimited).
+max-snapshots: <%= @max_snapshots -%>
+
+# Reject reconfiguration requests that would cause quorum loss.
+strict-reconfig-check: <%= @strict_reconfig_check -%>
+
+# Enable debug-level logging for etcd.
+debug: <%= @debug -%>
+
+# Number of committed transactions to trigger a snapshot to disk.
+<% if @snapshot -%>
+snapshot-count: <%= @snapshot_count -%>
+<% end -%>
+
 <% if @client_security -%>
 client-transport-security:
   # Path to the client server TLS cert file.
@@ -61,7 +83,8 @@ client-transport-security:
   # Path to the client server TLS key file.
   key-file: '<%= @client_key_file -%>'
   # Enable client cert authentication.
-  client-cert-auth: '<%= @client_cert_auth -%>'
+  client-cert-auth: <%= @client_cert_auth -%>
+
   # Path to the client server TLS trusted CA key file.
   trusted-ca-file: '<%= @client_trusted_ca_file -%>'
 <% end -%>
@@ -72,7 +95,8 @@ peer-transport-security:
   # Path to the peer server TLS key file.
   key-file: '<%= @peer_key_file -%>'
   # Enable peer client cert authentication.
-  client-cert-auth: '<%= @peer_cert_auth -%>'
+  client-cert-auth: <%= @peer_cert_auth -%>
+
   # Path to the peer server TLS trusted CA key file.
   trusted-ca-file: '<%= @peer_trusted_ca_file -%>'
 <% end -%>
@@ -90,3 +114,6 @@ discovery-srv: ''
 # Comma-separated white list of origins for CORS (cross-origin resource sharing).
 cors: <%= @cors -%>
 <% end -%>
+
+# Specify a particular log level for each etcd package (eg: 'etcdmain=CRITICAL,etcdserver=DEBUG'.
+log-package-levels: '<%= @log_package_levels -%>'
