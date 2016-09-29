@@ -10,21 +10,21 @@ data-dir: '/var/lib/etcd'
 wal-dir: ''
 
 # List of comma separated URLs to listen on for peer traffic.
-listen-peer-urls: 'etcd.test.local:7001,etcd.test.local:2380'
+listen-peer-urls: 'etcd.test.local:7001, etcd.test.local:2380'
 
 # List of comma separated URLs to listen on for client traffic.
-listen-client-urls: 'etcd.test.local:2379,etcd.test.local:4001'
+listen-client-urls: 'etcd.test.local:2379, etcd.test.local:4001'
 
 # List of this member's peer URLs to advertise to the rest of the cluster.
 # The URLs needed to be a comma-separated list.
-initial-advertise-peer-urls: 'etcd.test.local:2380,etcd.test.local:7001'
+initial-advertise-peer-urls: 'etcd.test.local:2380, etcd.test.local:7001'
 
 # List of this member's client URLs to advertise to the public.
 # The URLs needed to be a comma-separated list.
-advertise-client-urls: 'etcd.test.local:2380,etcd.test.local:7001'
+advertise-client-urls: 'etcd.test.local:2380, etcd.test.local:7001'
 
 # Initial cluster configuration for bootstrapping.
-initial-cluster: 'etcd.test.local=etcd.test.local:7001,etcd.test.local=etcd.test.local:2380'
+initial-cluster: 'etcd.test.local=etcd.test.local:7001, etcd.test.local=etcd.test.local:2380'
 
 # Initial cluster token for the etcd cluster during bootstrap.
 initial-cluster-token: 'etcd-cluster'
