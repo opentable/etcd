@@ -3,4 +3,4 @@
 forge 'http://forge.puppetlabs.com'
 
 modulefile
-#mod 'puppetlabs-stdlib', '>=3.2.0'
+mod 'puppetlabs-stdlib', '>=3.2.0'

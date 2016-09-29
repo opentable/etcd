@@ -9,6 +9,7 @@ begin
 rescue LoadError
 end
 
+PuppetLint.configuration.send("disable_autoloader_layout")
 PuppetLint.configuration.send("disable_80chars")
 PuppetLint.configuration.log_format = "%{path}:%{linenumber}:%{check}:%{KIND}:%{message}"
 PuppetLint.configuration.fail_on_warnings = true

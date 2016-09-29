@@ -41,7 +41,7 @@ class etcd::params {
   $etcd_election_timeout            = '1000'
 
   # Peer settings
-  $etcd_listen_peer_urls            = join(["${::fqdn}:7001","${::fqdn}:2380"],",")
+  $etcd_listen_peer_urls            = join(["${::fqdn}:7001","${::fqdn}:2380"],',')
 
   # Snapshot settings
   $etcd_snapshot                    = true
@@ -52,11 +52,11 @@ class etcd::params {
   $etcd_max_snapshots               = '5'
   $etcd_strict_reconfig_check       = false
 
-  $etcd_listen_client_urls          = join(["${::fqdn}:2379", "${::fqdn}:4001"],", ")
-  $etcd_initial_advertise_peer_urls = join(["${::fqdn}:2380", "${::fqdn}:7001"],", ")
-  $etcd_advertise_client_urls       = join(["${::fqdn}:2380", "${::fqdn}:7001"],", ")
+  $etcd_listen_client_urls          = join(["${::fqdn}:2379", "${::fqdn}:4001"],', ')
+  $etcd_initial_advertise_peer_urls = join(["${::fqdn}:2380", "${::fqdn}:7001"],', ')
+  $etcd_advertise_client_urls       = join(["${::fqdn}:2380", "${::fqdn}:7001"],', ')
 
-  $etcd_initial_cluster             = join(["$::fqdn=${::fqdn}:7001", "$::fqdn=${::fqdn}:2380"],",")
+  $etcd_initial_cluster             = join(["$::fqdn=${::fqdn}:7001", "$::fqdn=${::fqdn}:2380"],',')
   $etcd_initial_cluster_token       = 'etcd-cluster'
   $etcd_initial_cluster_state       = 'new'
 
