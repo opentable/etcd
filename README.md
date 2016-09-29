@@ -32,4 +32,4 @@ Please log tickets and issues on [GitHub](https://github.com/opentable/puppet-et
 
 Credit
 -------
- Shout-out to Kyle Anderson <kyle@xkyle.com> for which this work was based on https://github.com/opentable/puppet-etcd
+ Shout-out to Kyle Anderson <kyle@xkyle.com> for which this work was based on https://github.com/solarkennedy/puppet-etcd
