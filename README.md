@@ -1,6 +1,6 @@
 About
 ------
-[![Build Status](https://travis-ci.org/opentable/puppet-etcd-v3.png)](https://travis-ci.org/opentable/puppet-etcd-v3)
+[![Build Status](https://travis-ci.org/opentable/etcd.png)](https://travis-ci.org/opentable/etcd)
 
 This puppet module installs and configures etcd-v3.
 
@@ -28,7 +28,7 @@ Chris Cartlidge <ccartlidge@opentable.com>, Rob Luong <rluong@opentable.com>
 
 Support
 -------
-Please log tickets and issues on [GitHub](https://github.com/opentable/puppet-etcd-v3/issues)
+Please log tickets and issues on [GitHub](https://github.com/opentable/etcd/issues)
 
 Credit
 -------
