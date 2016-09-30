@@ -20,8 +20,6 @@
 # chkconfig: 2345 20 80
 # description: Starts and stops etcd
 
-. /etc/init.d/functions
-
 prog="etcd"
 prog_bin="<%= @binary_location -%>"
 desc="etcd shared configuration and service discovery daemon"
