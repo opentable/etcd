@@ -155,7 +155,7 @@ describe 'etcd', :type => :class do
           :wal_dir                      => '/test/wal',
           :max_wals                     => '5',
           :binary_location              => '/bin/etcd',
-          :cors                         => [ 'cors1', 'cors2' ],
+          :cors                         => 'cors1,cors2',
           :data_dir                     => '/test/data_dir',
           :group                        => 'etcd_group',
           :log_dir                      => '/test/log_dir',
@@ -203,7 +203,7 @@ describe 'etcd', :type => :class do
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/proxy-read-timeout: 6000/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/wal-dir: '\/test\/wal'/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/max-wals: 5/)
-        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/cors: \["cors1", "cors2"\]/)
+        should contain_file('/etc/etcd/etcd.conf.yml').with_content(/cors: 'cors1,cors2'/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/data-dir: '\/test\/data_dir'/)
         should contain_file('/etc/etcd/etcd.conf.yml').without_content(/discovery:/)
         should contain_file('/etc/etcd/etcd.conf.yml').with_content(/name: 'test_node_name'/)

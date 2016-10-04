@@ -112,7 +112,7 @@ discovery-srv: ''
 <% end -%>
 <% if @cors and !@cors.empty? -%>
 # Comma-separated white list of origins for CORS (cross-origin resource sharing).
-cors: <%= @cors -%>
+cors: '<%= @cors -%>'
 <% end -%>
 
 # Specify a particular log level for each etcd package (eg: 'etcdmain=CRITICAL,etcdserver=DEBUG'.

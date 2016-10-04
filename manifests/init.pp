@@ -74,7 +74,6 @@ class etcd (
   }
 
   # Validate other params
-  validate_array($cors)
   validate_bool($manage_user)
   validate_bool($snapshot)
   validate_bool($manage_data_dir)
