@@ -1,108 +1,108 @@
 # This is the configuration file for the etcd server.
 
 # Human-readable name for this member.
-name: '<%= @node_name -%>'
+name: '<%= scope["node_name"] -%>'
 
 # Path to the data directory.
-data-dir: '<%= @data_dir -%>'
+data-dir: '<%= scope["data_dir"] -%>'
 
 # Path to the dedicated wal directory.
-wal-dir: '<%= @wal_dir -%>'
+wal-dir: '<%= scope["wal_dir"] -%>'
 
 # List of comma separated URLs to listen on for peer traffic.
-listen-peer-urls: '<%= @listen_peer_urls -%>'
+listen-peer-urls: '<%= scope["listen_peer_urls"] -%>'
 
 # List of comma separated URLs to listen on for client traffic.
-listen-client-urls: '<%= @listen_client_urls -%>'
+listen-client-urls: '<%= scope["listen_client_urls"] -%>'
 
 # List of this member's peer URLs to advertise to the rest of the cluster.
 # The URLs needed to be a comma-separated list.
-initial-advertise-peer-urls: '<%= @initial_advertise_peer_urls -%>'
+initial-advertise-peer-urls: '<%= scope["initial_advertise_peer_urls"] -%>'
 
 # List of this member's client URLs to advertise to the public.
 # The URLs needed to be a comma-separated list.
-advertise-client-urls: '<%= @advertise_client_urls -%>'
+advertise-client-urls: '<%= scope["advertise_client_urls"] -%>'
 
 # Initial cluster configuration for bootstrapping.
-initial-cluster: '<%= @initial_cluster -%>'
+initial-cluster: '<%= scope["initial_cluster"] -%>'
 
 # Initial cluster token for the etcd cluster during bootstrap.
-initial-cluster-token: '<%= @initial_cluster_token -%>'
+initial-cluster-token: '<%= scope["initial_cluster_token"] -%>'
 
 # Initial cluster state ('new' or 'existing').
-initial-cluster-state: '<%= @initial_cluster_state -%>'
+initial-cluster-state: '<%= scope["initial_cluster_state"] -%>'
 
 # Valid values include 'on', 'readonly', 'off'
-proxy: '<%= @proxy -%>'
+proxy: '<%= scope["proxy"] -%>'
 # Time (in milliseconds) an endpoint will be held in a failed state.
-proxy-failure-wait: <%= @proxy_failure_wait -%>
+proxy-failure-wait: <%= scope["proxy_failure_wait"] -%>
 
 # Time (in milliseconds) of the endpoints refresh interval.
-proxy-refresh-interval: <%= @proxy_refresh_interval -%>
+proxy-refresh-interval: <%= scope["proxy_refresh_interval"] -%>
 
 # Time (in milliseconds) for a dial to timeout.
-proxy-dial-timeout: <%= @proxy_dial_timeout -%>
+proxy-dial-timeout: <%= scope["proxy_dial_timeout"] -%>
 
 # Time (in milliseconds) for a write to timeout.
-proxy-write-timeout: <%= @proxy_write_timeout -%>
+proxy-write-timeout: <%= scope["proxy_write_timeout"] -%>
 
 # Time (in milliseconds) for a read to timeout.
-proxy-read-timeout: <%= @proxy_read_timeout -%>
+proxy-read-timeout: <%= scope["proxy_read_timeout"] -%>
 
 
 # Force to create a new one member cluster.
-force-new-cluster: <%= @force_new_cluster -%>
+force-new-cluster: <%= scope["force_new_cluster"] -%>
 
 # Maximum number of wal files to retain (0 is unlimited).
-max-wals: <%= @max_wals -%>
+max-wals: <%= scope["max_wals"] -%>
 
 # Time (in milliseconds) of a heartbeat interval.
-heartbeat-interval: <%= @heartbeat_interval -%>
+heartbeat-interval: <%= scope["heartbeat_interval"] -%>
 
 # Time (in milliseconds) for an election to timeout.
-election-timeout: <%= @election_timeout  -%>
+election-timeout: <%= scope["election_timeout"]  -%>
 
 # Maximum number of snapshot files to retain (0 is unlimited).
-max-snapshots: <%= @max_snapshots -%>
+max-snapshots: <%= scope["max_snapshots"] -%>
 
 # Reject reconfiguration requests that would cause quorum loss.
-strict-reconfig-check: <%= @strict_reconfig_check -%>
+strict-reconfig-check: <%= scope["strict_reconfig_check"] -%>
 
 # Enable debug-level logging for etcd.
-debug: <%= @debug -%>
+debug: <%= scope["debug"] -%>
 
 # Number of committed transactions to trigger a snapshot to disk.
-<% if @snapshot -%>
-snapshot-count: <%= @snapshot_count -%>
+<% if scope["snapshot"] -%>
+snapshot-count: <%= scope["snapshot_count"] -%>
 <% end -%>
 
-<% if @client_security -%>
+<% if scope["client_security"] -%>
 client-transport-security:
   # Path to the client server TLS cert file.
-  cert-file: '<%= @client_cert_file -%>'
+  cert-file: '<%= scope["client_cert_file"] -%>'
   # Path to the client server TLS key file.
-  key-file: '<%= @client_key_file -%>'
+  key-file: '<%= scope["client_key_file"] -%>'
   # Enable client cert authentication.
-  client-cert-auth: <%= @client_cert_auth -%>
+  client-cert-auth: <%= scope["client_cert_auth"] -%>
 
   # Path to the client server TLS trusted CA key file.
-  trusted-ca-file: '<%= @client_trusted_ca_file -%>'
+  trusted-ca-file: '<%= scope["client_trusted_ca_file"] -%>'
 <% end -%>
-<% if @peer_security -%>
+<% if scope["peer_security"] -%>
 peer-transport-security:
   # Path to the peer server TLS cert file.
-  cert-file: '<%= @peer_cert_file -%>'
+  cert-file: '<%= scope["peer_cert_file"] -%>'
   # Path to the peer server TLS key file.
-  key-file: '<%= @peer_key_file -%>'
+  key-file: '<%= scope["peer_key_file"] -%>'
   # Enable peer client cert authentication.
-  client-cert-auth: <%= @peer_cert_auth -%>
+  client-cert-auth: <%= scope["peer_cert_auth"] -%>
 
   # Path to the peer server TLS trusted CA key file.
-  trusted-ca-file: '<%= @peer_trusted_ca_file -%>'
+  trusted-ca-file: '<%= scope["peer_trusted_ca_file"] -%>'
 <% end -%>
-<% if @discovery -%>
+<% if scope["discovery"] -%>
 # Discovery URL used to bootstrap the cluster.
-discovery: '<%= @discovery_endpoint -%>'
+discovery: '<%= scope["discovery_endpoint"] -%>'
 # Valid values include 'exit', 'proxy'
 discovery-fallback: 'proxy'
 # HTTP proxy to use for traffic to discovery service.
@@ -110,10 +110,10 @@ discovery-proxy: ''
 # DNS domain used to bootstrap initial cluster.
 discovery-srv: ''
 <% end -%>
-<% if @cors and !@cors.empty? -%>
+<% if scope["cors"] and !scope["cors"].empty? -%>
 # Comma-separated white list of origins for CORS (cross-origin resource sharing).
-cors: '<%= @cors -%>'
+cors: '<%= scope["cors"] -%>'
 <% end -%>
 
 # Specify a particular log level for each etcd package (eg: 'etcdmain=CRITICAL,etcdserver=DEBUG'.
-log-package-levels: '<%= @log_package_levels -%>'
+log-package-levels: '<%= scope["log_package_levels"] -%>'

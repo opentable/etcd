@@ -21,7 +21,7 @@
 # description: Starts and stops etcd
 
 prog="etcd"
-prog_bin="<%= @binary_location -%>"
+prog_bin="<%= scope["binary_location"] -%>"
 desc="etcd shared configuration and service discovery daemon"
 
 if ! [ -f $prog_bin ]; then
@@ -31,7 +31,7 @@ fi
 
 start() {
   echo "Starting $desc ($prog): "
-  su <%= @user -%> -c "nohup $prog_bin --config-file /etc/etcd/etcd.conf.yml >><%= @log_dir %>/etcd.out 2>&1 &"
+  su <%= scope["user"] -%> -c "nohup $prog_bin --config-file /etc/etcd/etcd.conf.yml >><%= scope["log_dir"] %>/etcd.out 2>&1 &"
   RETVAL=$?
   return $RETVAL
 }
